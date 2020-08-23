@@ -7,7 +7,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const {getAllPokemons, addPokeman} = require('../lib/test');//this function need to getinto from matt part consider again??
+const {getAllPokemons, addPokeman, dePokeman} = require('../lib/test');//this function need to getinto from matt part consider again??
 
 
 router.get('/', (req, res) => {
@@ -31,27 +31,24 @@ router.post('/creat_listing', (req, res) => {
       .catch(e => {
         console.error(e);
         res.send(e)
-  });
+  })
 })
 
 router.post("/:id/delete", (req, res) => {
   const userId = req.session.user_id;
-  
+  dePokeman({...req.body, user_id: userId})
+    .then(pokeman => {
+      console.log(pokeman)
+      res.send(pokeman);
+    })
+    .catch(e => {
+      console.error(e);
+      res.send(e)
+  })
 })
 
 
 
-//homepage can get all list ????
-// router.get("/", (req,res) => {
-//   getAllPokemons(option)
-//     .then((pokemons)=>{
-//       console.log(pokemons)
-//        res.json({pokemons})
-//     })
-//     .catch(err => {
-//       res.json({ error: err.message })
-//     })
-// });
 
 
 //the login user can see their own selling list
